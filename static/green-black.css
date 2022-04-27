@@ -1,0 +1,14 @@
+:root {
+    --font-color: rgb(222, 222, 222);
+    --font-color-additional-info: #5769fb;
+    --border-color: rgb(189, 188, 188);
+    --border-color-grade-info: rgb(255, 255, 255);
+
+    --background-color: rgb(30, 30, 30);
+    --background-color-grade-info: rgb(23, 23, 23);
+    --background-color-odd-rows: #353a38;
+    --background-color-even-rows: #2a2e2c;
+    --background-color-header-row: #006a32;
+    --background-color-grade-hover: #4f5754;
+}
+/* #4c4458 TODO */

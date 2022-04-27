@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dziennik</title>
+    <link rel="icon" href=" {{ url_for('static', filename='logo.png') }}">
+
+    <link rel="stylesheet" href="{{ theme_link }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div id="all">
+        <div id="header">
+            <a id="logo" href="/">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+                <h1>Dziennik</h1>
+            </a>
+            <div id="menu">
+                <a class="option" href="/oceny/2"><h3>Oceny</h3></a>
+                <a class="option" href="#"><h3>Frekwencja</h3></a>
+                <a class="option" href="/planlekcji"><h3>Plan lekcji</h3></a>
+                <a class="option" href="/sprawdziany"><h3>Sprawdziany</h3></a>
+                <a class="option" href="/wiadomosci"><h3>Wiadomości</h3></a>
+            </div>
+            <div id="change-theme">
+                <div class="white-black-set">
+                    Motywy
+                </div>
+                <div id="hidden-layers">
+                    <div class="white-black-set">
+                        <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='green-white.png') }}">
+                        </a>
+                        <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='green-black.png') }}">
+                        </a>    
+                    </div>
+                    <div class="white-black-set">
+                        <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='green-white.png') }}">
+                        </a>
+                        <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='green-black.png') }}">
+                        </a>    
+                    </div>
+                    <div class="white-black-set">
+                        <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='green-white.png') }}">
+                        </a>
+                        <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='green-black.png') }}">
+                        </a>    
+                    </div>
+                    <div class="white-black-set">
+                        <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='green-white.png') }}">
+                        </a>
+                        <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='green-black.png') }}">
+                        </a>    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="main">
+            {% if lessons %}
+                <div class="buttons">
+                    <a class="button" href="/oceny/1">semestr 1</a>
+                    <a class="button" href="/oceny/2">semestr 2</a>
+                </div>
+                <div id="grades-container">
+                    <div class="lesson-container">
+                        <div class="lesson-name"><b>Przedmiot</b></div>
+                        <div class="average"><b>Średnia</b></div>
+                        <div class="grades">
+                            <div class="grade"><b>Oceny</b></div>
+                        </div>
+                    </div>
+               
+                    {% for lesson in lessons %}
+                        <div class="lesson-container">
+                            <div class="lesson-name">{{ lesson.lesson_name }}</div>
+                            <div class="average">{{ lesson.average }}</div>
+                            <div class="grades">
+                                {% for grade in lesson.grades %}
+                                    <div class="grade">
+                                        <span>{{ grade.grade }}</span>
+                                        <div>
+                                            <b>Ocena: </b> {{ grade.grade}}<br>
+                                            <b>Waga: </b> {{ grade.weight }}<br>
+                                            <b>Opis: </b> {{ grade.description }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% elif timetable %}
+                <div class="buttons">
+                    <a class="button" href="/set_cookie/date_offset/-1/planlekcji">poprzedni tydzien</a>
+                    <a class="button" href="/set_cookie/date_offset/0/planlekcji">biezacy tydzien</a>
+                    <a class="button" href="/set_cookie/date_offset/1/planlekcji">nastepny tydzien</a>
+                </div>
+                <div id="timetable-container">
+                    <div class="row-container">
+                        {% for weekday in timetable.weekdays %}
+                                <div class="cell">
+                                    <div class="lesson">
+                                        {{ weekday.day }}<br>{{ weekday.date }}
+                                    </div>
+                                </div>
+                        {% endfor %}
+                    </div>
+
+                    {% for row in timetable.lessons %}
+                        <div class="row-container">
+                            {% for cell in row %}
+                                <div class="cell">
+                                    <div class="lesson">{{ cell.lesson }}</div>
+                                    {% if cell.additional_info != '' %}
+                                        <div class="additional-info">{{ cell.additional_info }}</div>
+                                    {% endif %}
+                                    {% if cell.teacher != '' %}
+                                        <div class="hidden-info">
+                                            <div class="teacher"><b>Nauczyciel: </b>{{ cell.teacher }}</div>
+                                            <div class="class-num"><b>Sala: </b>{{ cell.class_num }}</div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+            {% elif tests %}
+                <div class="buttons">
+                    <a class="button" href="/set_cookie/date_offset/-1/sprawdziany">poprzedni tydzien</a>
+                    <a class="button" href="/set_cookie/date_offset/0/sprawdziany">biezacy tydzien</a>
+                    <a class="button" href="/set_cookie/date_offset/1/sprawdziany">nastepny tydzien</a>
+                </div>
+                <div class="tests-container">
+                    {% for i, day in enumerate(tests.days) %}
+                        <div class="day">
+                            <div class="date">
+                                {{ tests.weekdays[i].day }}<br>{{ tests.weekdays[i].date }}
+                            </div>
+                            {% for test in day %}
+                                <div class="test">
+                                    <div class="lesson-name">
+                                        <b>lekcja: </b> {{ test.lesson }}<br>
+                                    </div>
+                                    <div class="description">
+                                        <b>opis: </b> {{ test.description }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            
+            {% elif messages %}
+                    <div class="messages-container">
+                        <div class="message">
+                            <div class="title">Tytuł</div>
+                            <div class="sender">Nadawca</div>
+                            <div class="date">Data</div>
+                        </div>
+
+                        {% for message in messages %}
+                            <a class="message" href="/wiadomosci/{{ message.id }}">
+                                <div class="title">{{ message.title }}</div>
+                                <div class="sender">{{ message.sender }}</div>
+                                <div class="date">{{ message.date }}</div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <a id="load-more-messages" href="/set_cookie/messages_date_offset/-30/wiadomosci#load-more-messages">Załaduj więcej</a>
+            
+            {% elif message %}
+                <div class="message-container">
+                    <div class="content">{{ message.content }}</div>
+                    <div class="attachments">
+                        {% if message.attachments %}
+                            {% for attachment in message.attachments %}
+                                <a class="name" href="{{ attachment.url }}">{{ attachment.name }}</a>
+                            {% endfor %}
+                        {% else %}
+                            <div class="attachment">Brak załączników :)</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- <a id="back-button" href="/wiadomosci">Powrot</a> -->
+
+            {% endif %}
+
+
+        </div>
+    </div>
+</body>
+</html>
