@@ -3,12 +3,14 @@ from datetime import datetime
 from modules.interpreter import Interpreter
 from modules.sessions import Sessions
 import json
+from modules.key_manager import *
+from cryptography.fernet import Fernet
 
 app = Flask(__name__)
 
 sessions = Sessions()
-
 default_theme = 'green-black'
+fernet = Fernet(Fernet.generate_key())
 
 def check_cookies(render_template_args):
     
@@ -64,13 +66,13 @@ def login():
     if request.method == 'GET':
         if request.cookies.get('username') is not None and request.cookies.get('password') is not None:
             username = request.cookies.get('username')
-            password = request.cookies.get('password')
+            enc_password = request.cookies.get('password')
+            dec_password = decrypt(fernet, enc_password)
             
-            
-            interpreter = Interpreter(username, password)
+            interpreter = Interpreter(username, dec_password)
             
             if interpreter.api.logged_in:
-                s_id = sessions.add_new_session(interpreter, username, password)
+                s_id = sessions.add_new_session(interpreter, username, enc_password)
                 response = redirect('/')
                 response.set_cookie('session_id', str(s_id))
                 return response
@@ -79,16 +81,17 @@ def login():
     
     elif request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']
+        dec_password = request.form['password']
         
-        interpreter = Interpreter(username, password)
+        interpreter = Interpreter(username, dec_password)
         
         if interpreter.api.logged_in:
+            enc_password = encrypt(fernet, dec_password)
             response = make_response(redirect('/'))
             response.set_cookie('username', username, expires=datetime(2026, 1, 1))
-            response.set_cookie('password', password, expires=datetime(2026, 1, 1))
+            response.set_cookie('password', enc_password, expires=datetime(2026, 1, 1))
             
-            s_id = sessions.add_new_session(interpreter, username, password)
+            s_id = sessions.add_new_session(interpreter, username, enc_password)
             response.set_cookie('session_id', str(s_id))
             
             return response
