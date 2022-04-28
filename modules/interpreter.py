@@ -108,11 +108,13 @@ class Interpreter:
     
     def get_messages(self, offset):
         today = datetime.date.today()
+        tommorow = today + datetime.timedelta(days=1)
+        iso_format_tommorow = tommorow.isoformat()
+        
         from_date = today + datetime.timedelta(days=offset)
         iso_format_from_date = from_date.isoformat()
-        iso_format_today = today.isoformat()
         
-        raw_messages = self.api.get_messages(iso_format_from_date, iso_format_today)
+        raw_messages = self.api.get_messages(iso_format_from_date, iso_format_tommorow)
         
         raw_messages.sort(key=lambda elem: elem['date'], reverse=True)
         return raw_messages
