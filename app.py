@@ -12,8 +12,18 @@ sessions = Sessions()
 default_theme = 'green-black'
 fernet = Fernet(Fernet.generate_key())
 
-def check_cookies(render_template_args):
+def check_cookies(*args, **kwargs):
     
+    templates_dict = {
+            'lessons': False,
+            'timetable': False,
+            'tests': False,
+            'messages': False,
+            'message': False,
+            'addendance': False
+        }
+    if args:
+        templates_dict[args[0]] = args[1]
     
     # theme
     theme_cookie = request.cookies.get('theme')
@@ -26,11 +36,12 @@ def check_cookies(render_template_args):
     template =  render_template(
         'index.html',
         theme_link=theme_link,
-        lessons=render_template_args['lessons'],
-        timetable=render_template_args['timetable'],
-        tests=render_template_args['tests'],
-        messages=render_template_args['messages'],
-        message=render_template_args['message']
+        lessons=templates_dict['lessons'],
+        timetable=templates_dict['timetable'],
+        tests=templates_dict['tests'],
+        messages=templates_dict['messages'],
+        message=templates_dict['message'],
+        addendance=templates_dict['addendance']
         )
     
     
@@ -55,12 +66,30 @@ def check_cookies(render_template_args):
         
     return template
 
+def verify_session(func):
+    def wrapper(*args, **kwargs):
+        interpreter = sessions.verify(
+                request.cookies.get('session_id'),
+                request.cookies.get('username'),
+                request.cookies.get('password')
+            )
+        
+        if interpreter:
+            kwargs['interpreter'] = interpreter
+            val = func(*args, **kwargs)
+            
+        else:
+            val = redirect('/login')
+        return val
+    
+    return wrapper
+
 # when vulcan session will end
 @app.errorhandler(json.JSONDecodeError)
 def error(e):
     return redirect('/login')
     
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'], endpoint='login')
 def login():
     
     if request.method == 'GET':
@@ -98,150 +127,77 @@ def login():
         
         return render_template('login.html', wrong_password=True)
 
-@app.route("/")
-def main_page():
-    interpreter = sessions.verify(
-            request.cookies.get('session_id'),
-            request.cookies.get('username'),
-            request.cookies.get('password')
-        )
-    if interpreter:
-        return check_cookies({
-            'lessons': False,
-            'timetable': False,
-            'tests': False,
-            'messages': False,
-            'message': False
-            })
-    else:
-        return redirect('/login')
-    
-@app.route('/oceny/<semestr>')
-def grades(semestr):
-    
-    interpreter = sessions.verify(
-            request.cookies.get('session_id'),
-            request.cookies.get('username'),
-            request.cookies.get('password')
-        )
-    if interpreter:
-        return check_cookies({
-            'lessons': interpreter.get_all_grades(semestr),
-            'timetable': False,
-            'tests': False,
-            'messages': False,
-            'message': False
-            })
-    else:
-        return redirect('/login')
+@app.route("/", endpoint='main_page')
+@verify_session
+def main_page(*args, **kwargs):
 
-@app.route('/planlekcji')
-def plan_lekcji():
-    interpreter = sessions.verify(
-            request.cookies.get('session_id'),
-            request.cookies.get('username'),
-            request.cookies.get('password')
-        )
-    if interpreter:    
-        if request.cookies.get('date_offset') is None:
-            offset = 0
-        else:
-            offset = int(request.cookies.get('date_offset'))
+    interpreter = kwargs['interpreter']
+    return check_cookies()
+
+@app.route('/oceny/<semestr>', endpoint='grades')
+@verify_session
+def grades(semestr, *args, **kwargs):
+
+    interpreter = kwargs['interpreter']
+    return check_cookies('lessons', interpreter.get_all_grades(semestr))
+
+@app.route('/planlekcji', endpoint='plan_lekcji')
+@verify_session
+def plan_lekcji(*args, **kwargs):
+
+    interpreter = kwargs['interpreter']
+    if request.cookies.get('date_offset') is None:
+        offset = 0
+    else:
+        offset = int(request.cookies.get('date_offset'))
+    
+    return check_cookies('timetable', interpreter.get_timetable(offset))
+
+@app.route('/sprawdziany', endpoint='tests')
+@verify_session
+def tests(*args, **kwargs):
+
+    interpreter = kwargs['interpreter']
+    if request.cookies.get('date_offset') is None:
+        offset = 0
+    else:
+        offset = int(request.cookies.get('date_offset'))
         
-        return check_cookies({
-            'lessons': False,
-            'timetable': interpreter.get_timetable(offset),
-            'tests': False,
-            'messages': False,
-            'message': False
-            })
-    else:
-        return redirect('/login')
-    
+    return check_cookies('tests', interpreter.get_tests(offset))
 
-@app.route('/sprawdziany')
-def tests():
-    interpreter = sessions.verify(
-            request.cookies.get('session_id'),
-            request.cookies.get('username'),
-            request.cookies.get('password')
-        )
-    if interpreter:
-        if request.cookies.get('date_offset') is None:
-            offset = 0
-        else:
-            offset = int(request.cookies.get('date_offset'))
-            
-        return check_cookies(
-            {
-                'lessons': False,
-                'timetable': False,
-                'tests': interpreter.get_tests(offset),
-                'messages': False,
-                'message': False
-                })
-    else:
-        return redirect('/login')
+@app.route('/wiadomosci', endpoint='messages')
+@verify_session
+def messages(*args, **kwargs):
 
-@app.route('/wiadomosci')
-def messages():
-    interpreter = sessions.verify(
-            request.cookies.get('session_id'),
-            request.cookies.get('username'),
-            request.cookies.get('password')
-        )
-    if interpreter:
-        if request.cookies.get('messages_date_offset') is None:
-            offset = -30
-        else:
-            offset = int(request.cookies.get('messages_date_offset'))
-            
-        return check_cookies(
-            {
-                'lessons': False,
-                'timetable': False,
-                'tests': False,
-                'messages': interpreter.get_messages(offset),
-                'message': False
-            })
+    interpreter = kwargs['interpreter']
+    if request.cookies.get('messages_date_offset') is None:
+        offset = -30
     else:
-        return redirect('/login')
+        offset = int(request.cookies.get('messages_date_offset'))
+        
+    return check_cookies('messages', interpreter.get_messages(offset))
  
-@app.route('/wiadomosci/<message_id>')
-def message(message_id):
-    interpreter = sessions.verify(
-            request.cookies.get('session_id'),
-            request.cookies.get('username'),
-            request.cookies.get('password')
-        )
-    if interpreter:
-        return check_cookies(
-            {
-                'lessons': False,
-                'timetable': False,
-                'tests': False,
-                'messages': False,
-                'message': interpreter.get_message(message_id)
-                })
-    else:
-        return redirect('/login')
+@app.route('/wiadomosci/<message_id>', endpoint='message')
+@verify_session
+def message(message_id, *args, **kwargs):
+
+    interpreter = kwargs['interpreter']
+    return check_cookies('message', interpreter.get_message(message_id))
+
+@app.route('/frekwencja', endpoint='addendance')
+@verify_session
+def addendance(*args, **kwargs):
     
-@app.route('/newsession')
-def new_session():
-    global interpreter
-    
-    interpreter = sessions.verify(
-            request.cookies.get('session_id'),
-            request.cookies.get('username'),
-            request.cookies.get('password')
-        )
-    if interpreter:
-        return redirect('/')
+    interpreter = kwargs['interpreter']
+    if request.cookies.get('date_offset') is None:
+        offset = 0
     else:
-        return redirect('/login')
+        offset = int(request.cookies.get('date_offset'))
+        
+    return check_cookies('addendance', interpreter.get_addendance(offset))
          
-@app.route('/set_cookie/<name>/<value>/<page>')
-@app.route('/set_cookie/<name>/<value>/')
+@app.route('/set_cookie/<name>/<value>/<page>', endpoint='cookie_page')
+@app.route('/set_cookie/<name>/<value>/', endpoint='cookie_page')
 def cookie_page(name, value, page=''):
     page = '/' + page.replace('-', '/')
     
