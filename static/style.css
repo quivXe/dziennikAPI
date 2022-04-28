@@ -477,5 +477,17 @@ body {
     background-color: var(--background-color-odd-rows);
     padding: 10px;
     margin-top: 20px;
-    border: 1px solid var(--border-color)
+    border: 1px solid var(--border-color);
+}
+
+.addendance-container {
+    width: 70vw;
+    display: flex;
+    justify-content: space-between;
+}
+.addendance-container .day .present {
+    color: #0f0;
+}
+.addendance-container .day .upsent {
+    color: #f00;
 }
