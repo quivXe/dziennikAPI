@@ -250,7 +250,7 @@ class Api:
 
                 self.shortcuts[self.fullname_to_shortcut[raw_lesson['Nazwa']]]['id'] = raw_lesson['Id']
 
-    def addendance(self, lesson): 
+    def get_addendance_stats(self, lesson): 
 
         if lesson not in self.shortcuts.keys():
             return -1
@@ -262,6 +262,49 @@ class Api:
 
         return json.loads(response_text)['data']['Podsumowanie']
     
+    def get_addendance(self, monday_iso_format):
+        
+        def get_lesson_number(lesson_number):
+            # XDDDDDDDDDDD
+            if lesson_number == 23:
+                return 9
+            return lesson_number - 11
+        
+        categories = {1: 'present', 2: 'upsent', 4: 'late'}
+        
+        monday_iso_format += 'T00:00:00'
+        
+        url = 'https://uonetplus-uczen.vulcan.net.pl/' + self.school_name + '/' + self.funny_number_TODO + '/Frekwencja.mvc/Get'
+        response = self.session.get(url, params={'data': monday_iso_format, 'idTypWpisuFrekwencji': -1})
+        
+        raw_addendance = json.loads(response.text)['data']['Frekwencje']
+        
+        addendance = []
+        for day in raw_addendance:
+            
+            raw_category = day['IdKategoria']
+            if raw_category in categories.keys():
+                category = categories[raw_category]
+            else:
+                category = raw_category
+                
+            raw_lesson = day['PrzedmiotNazwa']
+            if raw_lesson in self.fullname_to_shortcut.keys():
+                lesson = self.fullname_to_shortcut[raw_lesson]
+            else:
+                lesson = raw_lesson
+                
+            addendance.append(
+                    {
+                        'category': category,
+                        'weekday_number': day['NrDnia'] - 1,
+                        'lesson_number':  get_lesson_number(day['IdPoraLekcji']),
+                        'lesson': lesson
+                    }
+                )
+        
+        return addendance
+            
     def get_tests(self, monday_iso_format):
 
         url = 'https://uonetplus-uczen.vulcan.net.pl/' + self.school_name + '/' + self.funny_number_TODO + '/Sprawdziany.mvc/Get'
