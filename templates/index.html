@@ -19,7 +19,7 @@
             </a>
             <div id="menu">
                 <a class="option" href="/oceny/2"><h3>Oceny</h3></a>
-                <a class="option" href="#"><h3>Frekwencja</h3></a>
+                <a class="option" href="/frekwencja"><h3>Frekwencja</h3></a>
                 <a class="option" href="/planlekcji"><h3>Plan lekcji</h3></a>
                 <a class="option" href="/sprawdziany"><h3>Sprawdziany</h3></a>
                 <a class="option" href="/wiadomosci"><h3>Wiadomości</h3></a>
@@ -194,6 +194,21 @@
                 </div>
                 <!-- <a id="back-button" href="/wiadomosci">Powrot</a> -->
 
+            {% elif addendance %}
+                <div class="buttons">
+                    <a class="button" href="/set_cookie/date_offset/-1/frekwencja">poprzedni tydzien</a>
+                    <a class="button" href="/set_cookie/date_offset/0/frekwencja">biezacy tydzien</a>
+                    <a class="button" href="/set_cookie/date_offset/1/frekwencja">nastepny tydzien</a>
+                </div>
+                <div class="addendance-container">
+                    {% for day in addendance.days %}
+                        <div class="day">
+                            {% for lesson in day.lessons %}
+                                <div class="lesson {{ lesson.category }}">{{lesson.lesson}}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
             {% endif %}
 
 
