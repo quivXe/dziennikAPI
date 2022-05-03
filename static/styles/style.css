@@ -141,6 +141,7 @@ body {
 }
 #main .buttons > * {
     padding: 0 20px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     border-right: 1px solid var(--border-color);
@@ -169,6 +170,15 @@ body {
     }
 
     #main .buttons {
-        width: 100vw;
+        width: 95vw;
+        flex-wrap: wrap;
+        background-color: rgba(0,0,0,0);
+        border: 0;
+    }
+    #main .buttons > * {
+        flex-wrap: wrap;
+        background-color: var(--background-color-even-rows);
+        border: 1px solid var(--border-color);
+        margin: 1.5px;
     }
 }

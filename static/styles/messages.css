@@ -78,7 +78,7 @@
     }
 
     .messages-container {
-        width: 100vw;
+        width: 95vw;
     }
 
     .messages-container .message {
@@ -97,6 +97,6 @@
     }
 
     .message-container {
-        width: 100vw;
+        width: 95vw;
     }
 }
