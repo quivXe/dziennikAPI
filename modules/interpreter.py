@@ -2,7 +2,7 @@ from modules.api import Api
 import datetime
 
 black_list = ['chemia', 'wos', 'so', 'angielski zaw.', 'informatyka',
-              'podstawy informatyki', 'edb', '']
+              'podstawy informatyki', 'edb', 'kaszubski2']
 weekdays = [
         'Poniedziałek',
         'Wtorek',
@@ -121,6 +121,60 @@ class Interpreter:
     
     def get_message(self, message_id):
         return self.api.get_message_content(message_id)
-        
+    
+    def get_addendance(self, offset):
 
+        today = datetime.date.today()
+        monday_date = today - datetime.timedelta(days=today.weekday() - (offset*7))
         
+        iso_format_monday_date = monday_date.isoformat()
+        raw_addendance = self.api.get_addendance(iso_format_monday_date)
+        
+        addendance = {
+                'days': [
+                    {
+                        'lessons': [None for j in range(10)] # 10 lessons
+                    } for i in range(5)], # 5 days
+                'weekdays': weekdays
+            }
+        for raw_lesson in raw_addendance:
+            addendance['days'][raw_lesson['weekday_number']]['lessons'][raw_lesson['lesson_number']] = {
+                    'category': raw_lesson['category'],
+                    'lesson': raw_lesson['lesson']
+                }
+        
+        return addendance
+    
+    def get_addendance_stats(self):
+        
+        stats = [
+            {'lesson': lesson, 'val': self.api.get_addendance_stats(lesson)} for lesson in self.api.shortcuts if lesson not in black_list
+            ]
+                
+        return stats
+            
+    
+    def get_new_grades(self):
+        
+        today = datetime.datetime.now()
+        
+        week_before = today - datetime.timedelta(days=7)
+        
+        semestr = 2 # TODO: zeby ogarnialo sie samo jaki semestr zaleznie od tego jakie polrocze
+        raw_grades = self.api.get_grades(semestr)
+        
+        grades = []
+        for lesson in raw_grades:
+            for grade in raw_grades[lesson]['grades']:
+                if datetime.datetime.strptime(grade['date'], '%d.%m.%Y') > week_before:
+                    grades.append(
+                        {
+                            'lesson': lesson,
+                            'grade': grade['grade'],
+                            'weight': grade['weight'],
+                            'date': grade['date'],
+                            'description': grade['description']
+                        })
+
+        grades.sort(key=lambda item: item['date'], reverse=True)
+        return grades

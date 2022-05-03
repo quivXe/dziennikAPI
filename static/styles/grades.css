@@ -1,0 +1,186 @@
+#grades-container{
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    margin-top: 20px;
+}
+
+/* lesson container */
+
+#grades-container .lesson-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    min-height: 50px;
+    border: 1px solid var(--border-color);
+    border-top: 0;
+}
+
+#grades-container .lesson-container:first-child {
+    background-color: var(--background-color-header-row);
+    font-weight: bold;
+    border-top: 1px solid var(--border-color);
+}
+#grades-container .lesson-container:first-child > * {
+    justify-content: center;
+}
+
+#grades-container .lesson-container:nth-child(2n) {
+    background-color: var(--background-color-odd-rows);
+}
+#grades-container .lesson-container:nth-child(2n+3) {
+    background-color: var(--background-color-even-rows);
+}
+
+/* its for mobile version */
+#grades-container .lesson-container input {
+    display: none;
+}
+
+/* lesson name */
+
+#grades-container .lesson-container .lesson-name {
+    display: flex;
+    align-items: center;
+    width: 10%;
+    padding: 0 5px;
+    border-right: 1px solid var(--border-color); 
+}
+
+/* average */
+
+#grades-container .lesson-container .average {
+    display: flex;
+    align-items: center;
+    width: 10%;
+    padding: 0 5px;
+    border-right: 1px solid var(--border-color); 
+}
+
+/* grades */
+
+#grades-container .lesson-container .grades {
+    display: flex;
+    align-items: stretch;
+    width: 80%;
+}
+
+/* grade */
+
+#grades-container .lesson-container .grades .grade {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    padding: 5px 10px;
+}
+
+#grades-container .lesson-container .grades .grade:hover {
+    background-color: var(--background-color-grade-hover);
+}
+
+#grades-container .lesson-container:first-child .grades > * {
+    width: 100%;
+    border-right: 0;
+}
+#grades-container .lesson-container:first-child .grades > *:hover {
+    background-color: var(--background-color-header-row);
+}
+
+/* grade - hidden info */
+
+#grades-container .lesson-container .grades .grade div {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    top: 50px;
+    left: 0;
+    width: 200px;
+    background-color: var(--background-color-grade-info);
+    border: 1px solid var(--border-color);
+    border-top: 0;
+    transition-property: visibility;
+    padding: 7px;
+}
+
+#grades-container .lesson-container .grades .grade:hover div {
+    visibility: visible;
+    transition-delay: 0.2s
+}
+
+@media screen and (max-width: 1450px) {
+    .mobile {
+        display: unset !important;
+    }
+    
+    #grades-container {
+        width: 100vw;
+    }
+    #grades-container .lesson-container {
+        flex-wrap: wrap;
+        position: relative;
+    }
+    #grades-container .lesson-container .lesson-name {
+        width: 80%;
+        min-height: 50px;
+    }
+    #grades-container .lesson-container .average {
+        width: 20%;
+        border-right: 0;
+    }
+
+    /* grades */
+
+    #grades-container .lesson-container .grades {
+        overflow: hidden;
+        /* min-height: 0; */
+        height: 0;
+        width: 0;
+        flex-direction: column;
+        /* background-color: var(--background-color-grade-info); */
+    }
+
+    /* grade */
+
+    #grades-container .lesson-container .grades .grade {
+        width: 100%;
+        padding: 0;
+    }
+
+    /* grade info */
+    #grades-container .lesson-container .grades .grade div {
+        visibility: visible;
+        position: static;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0);
+        border: 0;
+        padding: 7px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    #grades-container .lesson-container .grades .grade:last-child div {
+        border-bottom: 0;
+    }
+    
+
+    #grades-container .lesson-container .grades .grade span {
+        display: none;
+    }
+
+    #grades-container .lesson-container label {
+        width: 100%;
+        height: 50px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+    #grades-container .lesson-container input:checked ~ .grades {
+        border-top: 1px solid var(--border-color);
+        width: 100%;
+        height: unset;
+        min-height: 50px;
+    }
+
+}

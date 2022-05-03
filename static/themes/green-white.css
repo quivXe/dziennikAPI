@@ -1,0 +1,13 @@
+:root {
+    --font-color: rgb(36, 36, 36);
+    --font-color-additional-info: rgb(251, 66, 66);
+    --border-color: rgb(87, 87, 87);
+    --border-color-grade-info: #000;
+
+    --background-color: rgb(238, 238, 238);
+    --background-color-grade-info: rgb(235, 235, 235);
+    --background-color-odd-rows: #d9eee3;
+    --background-color-even-rows: #c9ddd3;
+    --background-color-header-row: #05d466;
+    --background-color-grade-hover: #b0bbb6;
+}

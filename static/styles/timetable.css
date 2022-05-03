@@ -1,0 +1,98 @@
+#timetable-container {
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    margin-top: 20px;
+}
+
+/* row */
+
+#timetable-container .row-container {
+    display: flex;
+}
+
+#timetable-container .row-container:first-child {
+    background-color: var(--background-color-header-row);
+    border-top: 1px solid var(--border-color);
+    font-weight: bold;
+}
+
+/* cell */
+#timetable-container .row-container .cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 18%;
+    min-height: 50px;
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+#timetable-container .row-container:nth-child(1n+2) .cell:nth-child(2n) {
+    background-color: var(--background-color-even-rows);
+}
+
+#timetable-container .row-container:nth-child(1n+2) .cell:nth-child(2n+1) {
+    background-color: var(--background-color-odd-rows);
+}
+
+#timetable-container .row-container .cell:first-child {
+    width: 10%;
+    border-left: 1px solid var(--border-color);
+}
+#timetable-container .row-container:nth-child(1n+2) .cell:hover {
+    background-color: var(--background-color-grade-hover);
+}
+
+/* cell - additional info */
+
+#timetable-container .row-container .cell .additional-info {
+    color: var(--font-color-additional-info);
+}
+
+/* cell - hidden info */
+#timetable-container .row-container .cell .hidden-info{
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    padding: 7px;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-top: 0;
+    text-align: left;
+
+    
+    transition-property: visibility;
+}
+
+#timetable-container .row-container .cell:hover .hidden-info{
+    visibility: visible;
+    transition-delay: 0.2s;
+}
+
+@media screen and (max-width: 1450px) {
+    .mobile {
+        display: unset !important;
+    }
+
+    #timetable-container {
+        width: 100vw;
+        overflow-x: scroll;
+    }
+
+    #timetable-container .row-container:first-child {
+        background-color: var(--background-color-header-row);
+        border-top: 1px solid var(--border-color);
+        font-weight: bold;
+        width: fit-content;
+    }
+    #timetable-container .row-container .cell {
+        min-width: 150px;
+    }
+}

@@ -20,7 +20,9 @@ def check_cookies(*args, **kwargs):
             'tests': False,
             'messages': False,
             'message': False,
-            'addendance': False
+            'addendance': False,
+            'addendance_stats': False,
+            'new_grades': False
         }
     if args:
         templates_dict[args[0]] = args[1]
@@ -28,20 +30,22 @@ def check_cookies(*args, **kwargs):
     # theme
     theme_cookie = request.cookies.get('theme')
     if theme_cookie is None:
-        theme_link = url_for('static', filename='{}.css'.format(default_theme))
+        theme_link = url_for('static', filename='themes/{}.css'.format(default_theme))
     else:
-        theme_link = url_for('static', filename='{}.css'.format(theme_cookie))
+        theme_link = url_for('static', filename='themes/{}.css'.format(theme_cookie))
     
     # create template
     template =  render_template(
-        'index.html',
-        theme_link=theme_link,
-        lessons=templates_dict['lessons'],
-        timetable=templates_dict['timetable'],
-        tests=templates_dict['tests'],
-        messages=templates_dict['messages'],
-        message=templates_dict['message'],
-        addendance=templates_dict['addendance']
+            'index.html',
+            theme_link=theme_link,
+            lessons=templates_dict['lessons'],
+            timetable=templates_dict['timetable'],
+            tests=templates_dict['tests'],
+            messages=templates_dict['messages'],
+            message=templates_dict['message'],
+            addendance=templates_dict['addendance'],
+            addendance_stats=templates_dict['addendance_stats'],
+            new_grades=templates_dict['new_grades']
         )
     
     
@@ -132,7 +136,7 @@ def login():
 def main_page(*args, **kwargs):
 
     interpreter = kwargs['interpreter']
-    return check_cookies()
+    return check_cookies('new_grades', interpreter.get_new_grades())
 
 @app.route('/oceny/<semestr>', endpoint='grades')
 @verify_session
@@ -196,6 +200,14 @@ def addendance(*args, **kwargs):
         
     return check_cookies('addendance', interpreter.get_addendance(offset))
          
+@app.route('/frekwencja/statystyki', endpoint='addendance_stats')
+@verify_session
+def addendance_session(*args, **kwargs):
+    
+    interpreter = kwargs['interpreter']
+    
+    return check_cookies('addendance_stats', interpreter.get_addendance_stats())
+
 @app.route('/set_cookie/<name>/<value>/<page>', endpoint='cookie_page')
 @app.route('/set_cookie/<name>/<value>/', endpoint='cookie_page')
 def cookie_page(name, value, page=''):

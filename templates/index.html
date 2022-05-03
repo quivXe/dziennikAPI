@@ -5,16 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dziennik</title>
-    <link rel="icon" href=" {{ url_for('static', filename='logo.png') }}">
+    <link rel="icon" href=" {{ url_for('static', filename='images/logo.svg') }}">
 
     <link rel="stylesheet" href="{{ theme_link }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+
+    {% if lessons %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/grades.css') }}">
+    {% elif timetable %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/timetable.css') }}">
+    {% elif tests %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/tests.css') }}">
+    {% elif messages or message %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/messages.css') }}">
+    {% elif addendance %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/addendance.css') }}">
+    {% elif addendance_stats %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/addendance_stats.css') }}">
+    {% elif new_grades %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/new_grades.css') }}">
+    {% endif %}
 </head>
 <body>
     <div id="all">
         <div id="header">
             <a id="logo" href="/">
-                <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="logo">
                 <h1>Dziennik</h1>
             </a>
             <div id="menu">
@@ -31,34 +47,34 @@
                 <div id="hidden-layers">
                     <div class="white-black-set">
                         <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='green-white.png') }}">
+                            <img src="{{ url_for('static', filename='/images/green-white.png') }}">
                         </a>
                         <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='green-black.png') }}">
+                            <img src="{{ url_for('static', filename='/images/green-black.png') }}">
                         </a>    
                     </div>
                     <div class="white-black-set">
                         <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='green-white.png') }}">
+                            <img src="{{ url_for('static', filename='/images/green-white.png') }}">
                         </a>
                         <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='green-black.png') }}">
+                            <img src="{{ url_for('static', filename='/images/green-black.png') }}">
                         </a>    
                     </div>
                     <div class="white-black-set">
                         <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='green-white.png') }}">
+                            <img src="{{ url_for('static', filename='/images/green-white.png') }}">
                         </a>
                         <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='green-black.png') }}">
+                            <img src="{{ url_for('static', filename='/images/green-black.png') }}">
                         </a>    
                     </div>
                     <div class="white-black-set">
                         <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='green-white.png') }}">
+                            <img src="{{ url_for('static', filename='/images/green-white.png') }}">
                         </a>
                         <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='green-black.png') }}">
+                            <img src="{{ url_for('static', filename='/images/green-black.png') }}">
                         </a>    
                     </div>
                 </div>
@@ -72,15 +88,16 @@
                 </div>
                 <div id="grades-container">
                     <div class="lesson-container">
-                        <div class="lesson-name"><b>Przedmiot</b></div>
-                        <div class="average"><b>Średnia</b></div>
+                        <div class="lesson-name">Przedmiot</div>
+                        <div class="average">Średnia</div>
                         <div class="grades">
-                            <div class="grade"><b>Oceny</b></div>
+                            <div class="grade">Oceny</div>
                         </div>
                     </div>
                
-                    {% for lesson in lessons %}
+                    {% for i, lesson in enumerate(lessons) %}
                         <div class="lesson-container">
+                            <input type="checkbox" id="grades-{{i}}"><label class="mobile" for="grades-{{i}}"></label>
                             <div class="lesson-name">{{ lesson.lesson_name }}</div>
                             <div class="average">{{ lesson.average }}</div>
                             <div class="grades">
@@ -90,6 +107,7 @@
                                         <div>
                                             <b>Ocena: </b> {{ grade.grade}}<br>
                                             <b>Waga: </b> {{ grade.weight }}<br>
+                                            <b>Data: </b> {{ grade.date }}<br>
                                             <b>Opis: </b> {{ grade.description }}
                                         </div>
                                     </div>
@@ -97,6 +115,7 @@
                             </div>
                         </div>
                     {% endfor %}
+                    <i class="mobile">protip: stuknij w przedmiot, zeby sprawdzic oceny</i>
                 </div>
             {% elif timetable %}
                 <div class="buttons">
@@ -199,16 +218,58 @@
                     <a class="button" href="/set_cookie/date_offset/-1/frekwencja">poprzedni tydzien</a>
                     <a class="button" href="/set_cookie/date_offset/0/frekwencja">biezacy tydzien</a>
                     <a class="button" href="/set_cookie/date_offset/1/frekwencja">nastepny tydzien</a>
+                    <a class="button" href="/frekwencja/statystyki">statystyki</a>
                 </div>
                 <div class="addendance-container">
-                    {% for day in addendance.days %}
+                    {% for i, day in enumerate(addendance.days) %}
                         <div class="day">
+                            <div class="lesson">{{ addendance.weekdays[i] }}</div>
                             {% for lesson in day.lessons %}
                                 <div class="lesson {{ lesson.category }}">{{lesson.lesson}}</div>
                             {% endfor %}
                         </div>
                     {% endfor %}
                 </div>
+
+            {% elif addendance_stats %}
+                <div class="buttons">
+                    <a class="button" href="/frekwencja">frekwencja tygodniowa</a>
+                </div>
+                <div class="addendance-stats-container">
+                    <div class="lesson-container">
+                        <div class="lesson-name">Przedmiot</div>
+                        <div class="stats">Frekwencja</div>
+                    </div>
+                    {% for lesson in addendance_stats %}
+                        <div class="lesson-container">
+                            <div class="lesson-name">{{ lesson.lesson }}</div>
+                            <div class="stats">{{ lesson.val }}%</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            
+            {% elif new_grades %}
+                <div class="new-grades-container">
+                    <h2>Nowe oceny</h2>
+                    <div class="grade-container">
+                        <div class="lesson-name">Przedmiot</div>
+                        <div class="grade">Ocena</div>
+                        <div class="weight">Waga</div>
+                        <div class="date">Data</div>
+                        <div class="description">Opis</div>
+                    </div>
+                    {% for i, grade in enumerate(new_grades) %}
+                        <div class="grade-container">
+                            <input type="checkbox" id="new-grades-{{ i }}"><label class="mobile" for="new-grades-{{ i }}"></label>
+                            <div class="lesson-name">{{ grade.lesson }}</div>
+                            <div class="grade">{{ grade.grade }}</div>
+                            <div class="weight">{{ grade.weight }}</div>
+                            <div class="date">{{ grade.date }}</div>
+                            <div class="description">{{ grade.description }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <i class="mobile">Protip: stuknij w ocene, zeby wyswietlic opis</i>
             {% endif %}
 
 

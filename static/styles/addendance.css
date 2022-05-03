@@ -1,0 +1,65 @@
+.addendance-container {
+    width: 70vw;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.addendance-container .day {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+.addendance-container .day:nth-child(2n) {
+    background-color: var(--background-color-even-rows);
+}
+.addendance-container .day:nth-child(2n+1) {
+    background-color: var(--background-color-odd-rows);
+}
+.addendance-container .day .lesson {
+    min-height: 50px;
+    border: 1px solid var(--border-color);
+    border-top: 0;
+    border-right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.addendance-container .day:last-child {
+    border-right: 1px solid var(--border-color);
+}
+.addendance-container .day .lesson:first-child {
+    background-color: var(--background-color-header-row);
+    border-top: 1px solid var(--border-color);
+    font-weight: bold;
+}
+
+.addendance-container .day .upsent::before {
+    content: '[nb]';
+    color: var(--font-color-additional-info);
+    position: absolute;
+    left: 10px;
+}
+.addendance-container .day .late::before {
+    content: '[s]';
+    color: var(--font-color-additional-info);
+    position: absolute;
+    left: 10px;
+}
+
+@media screen and (max-width: 1450px) {
+    .mobile {
+        display: unset !important;
+    }
+
+    .addendance-container {
+        width: 100vw;
+        overflow-x: scroll;
+    }
+
+    .addendance-container .day {
+        min-width: 200px;
+    }
+}

@@ -6,6 +6,7 @@ import json
 class Api:
 
     shortcuts = {
+        'wszystkie': {'fullname': 'Wszystkie'},
         'religia': {'fullname': 'Religia'},
         'wos': {'fullname': 'Wiedza o społeczeństwie'},
         'informatyka': {'fullname': 'Informatyka'},
@@ -36,8 +37,7 @@ class Api:
         'lsk': {'fullname': 'lokalne sieci komputerowe'},
         'mielsk': {'fullname': 'montaż i eksploatacja lokalnych sieci komputerowych'},
         'tsiai': {'fullname': 'tworzenie stron i aplikacji internetowych'},
-        'pbd': {'fullname': 'projektowanie baz danych'},
-        'wszystkie': {'fullname': 'Wszystkie'}
+        'pbd': {'fullname': 'projektowanie baz danych'}
     }
     fullname_to_shortcut = {}
     for key in shortcuts:
@@ -159,7 +159,8 @@ class Api:
             lesson_grades = [{
                 'grade': grade_desc['Wpis'],
                 'weight': int(grade_desc['Waga']),
-                'description': grade_desc['NazwaKolumny']} for grade_desc in raw_lesson['OcenyCzastkowe']]
+                'description': grade_desc['NazwaKolumny'],
+                'date': grade_desc['DataOceny']} for grade_desc in raw_lesson['OcenyCzastkowe']]
             # grades[self.fullname_to_shortcut[]] = {'average': raw_lesson['Srednia'], 'grades': lesson_grades}
             lesson = raw_lesson['Przedmiot']
             if lesson in self.fullname_to_shortcut.keys():
