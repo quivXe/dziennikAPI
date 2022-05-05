@@ -1,32 +1,32 @@
-.addendance-stats-container {
+#addendance-stats-container {
     display: flex;
     flex-direction: column;
     width: 70vw;
     margin-top: 20px;
 }
 
-.addendance-stats-container .lesson-container {
+#addendance-stats-container .lesson-container {
     display: flex;
     min-height: 50px;
     border: 1px solid var(--border-color);
     border-top: 0;
 }
 
-.addendance-stats-container .lesson-container:nth-child(2n) {
+#addendance-stats-container .lesson-container:nth-child(2n) {
     background-color: var(--background-color-even-rows);
 }
-.addendance-stats-container .lesson-container:nth-child(2n+1) {
+#addendance-stats-container .lesson-container:nth-child(2n+1) {
     background-color: var(--background-color-odd-rows);
 }
-.addendance-stats-container .lesson-container:first-child {
+#addendance-stats-container .lesson-container:first-child {
     border-top: 1px solid var(--border-color);
     background-color: var(--background-color-header-row);
     font-weight: bold;
 }
-.addendance-stats-container .lesson-container:first-child > * {
+#addendance-stats-container .lesson-container:first-child > * {
     justify-content: center;
 }
-.addendance-stats-container .lesson-container .lesson-name {
+#addendance-stats-container .lesson-container .lesson-name {
     display: flex;
     align-items: center;
     width: 10%;
@@ -34,7 +34,7 @@
     border-right: 1px solid var(--border-color);
 }
 
-.addendance-stats-container .lesson-container .stats {
+#addendance-stats-container .lesson-container .stats {
     display: flex;
     align-items: center;
     padding: 0 5px;
@@ -45,16 +45,19 @@
     .mobile {
         display: unset !important;
     }
+    #main {
+        overflow-y: scroll;
+    }
 
-    .addendance-stats-container {
+    #addendance-stats-container {
         width: 95vw;
     }
 
-    .addendance-stats-container .lesson-container .lesson-name {
+    #addendance-stats-container .lesson-container .lesson-name {
         width: 70%;
     }
 
-    .addendance-stats-container .lesson-container .stats {
+    #addendance-stats-container .lesson-container .stats {
         width: 30%;
     }
 }

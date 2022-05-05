@@ -1,22 +1,22 @@
-.addendance-container {
+#addendance-container {
     width: 70vw;
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-.addendance-container .day {
+#addendance-container .day {
     display: flex;
     flex-direction: column;
     width: 20%;
 }
-.addendance-container .day:nth-child(2n) {
+#addendance-container .day:nth-child(2n) {
     background-color: var(--background-color-even-rows);
 }
-.addendance-container .day:nth-child(2n+1) {
+#addendance-container .day:nth-child(2n+1) {
     background-color: var(--background-color-odd-rows);
 }
-.addendance-container .day .lesson {
+#addendance-container .day .lesson {
     min-height: 50px;
     border: 1px solid var(--border-color);
     border-top: 0;
@@ -27,22 +27,22 @@
     position: relative;
 }
 
-.addendance-container .day:last-child {
+#addendance-container .day:last-child {
     border-right: 1px solid var(--border-color);
 }
-.addendance-container .day .lesson:first-child {
+#addendance-container .day .lesson:first-child {
     background-color: var(--background-color-header-row);
     border-top: 1px solid var(--border-color);
     font-weight: bold;
 }
 
-.addendance-container .day .upsent::before {
+#addendance-container .day .upsent::before {
     content: '[nb]';
     color: var(--font-color-additional-info);
     position: absolute;
     left: 10px;
 }
-.addendance-container .day .late::before {
+#addendance-container .day .late::before {
     content: '[s]';
     color: var(--font-color-additional-info);
     position: absolute;
@@ -53,13 +53,16 @@
     .mobile {
         display: unset !important;
     }
+    #main {
+        overflow-y: scroll;
+    }
 
-    .addendance-container {
+    #addendance-container {
         width: 95vw;
         overflow-x: scroll;
     }
 
-    .addendance-container .day {
+    #addendance-container .day {
         min-width: 200px;
     }
 }

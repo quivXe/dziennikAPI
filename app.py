@@ -31,13 +31,16 @@ def check_cookies(*args, **kwargs):
     theme_cookie = request.cookies.get('theme')
     if theme_cookie is None:
         theme_link = url_for('static', filename='themes/{}.css'.format(default_theme))
+        logo_link = url_for('static', filename='images/{}_logo.svg'.format(default_theme.split('-')[0]))
     else:
         theme_link = url_for('static', filename='themes/{}.css'.format(theme_cookie))
+        logo_link = url_for('static', filename='images/{}_logo.svg'.format(theme_cookie.split('-')[0]))
     
     # create template
     template =  render_template(
             'index.html',
             theme_link=theme_link,
+            logo_link=logo_link,
             lessons=templates_dict['lessons'],
             timetable=templates_dict['timetable'],
             tests=templates_dict['tests'],
@@ -224,7 +227,10 @@ def cookie_page(name, value, page=''):
         
 
     response = make_response(redirect(page))
-    response.set_cookie(name, value)
+    if name == 'theme':
+        response.set_cookie(name, value, expires=datetime(2026, 1, 1))
+    else:
+        response.set_cookie(name, value)
     return response
 
 @app.context_processor

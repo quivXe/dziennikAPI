@@ -51,21 +51,21 @@
     background-color: var(--background-color-grade-hover);
 }
 
-.message-container {
+#message-container {
     width: 70vw;
     margin-top: 20px;
     display: flex;
     flex-direction: column;
 }
 
-.message-container .content {
+#message-container .content {
     background-color: var(--background-color-odd-rows);
     border: 1px solid var(--border-color);
     padding: 10px;
     white-space: pre-line;
 }
 
-.message-container .attachments {
+#message-container .attachments {
     background-color: var(--background-color-odd-rows);
     padding: 10px;
     margin-top: 20px;
@@ -75,6 +75,9 @@
 @media screen and (max-width: 1450px) {
     .mobile {
         display: unset !important;
+    }
+    #main {
+        overflow-y: scroll;
     }
 
     .messages-container {
@@ -96,7 +99,7 @@
         display: none;
     }
 
-    .message-container {
+    #message-container {
         width: 95vw;
     }
 }

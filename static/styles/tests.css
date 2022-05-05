@@ -1,4 +1,4 @@
-.tests-container {
+#tests-container {
     display: flex;
     width: 70vw;
     margin-top: 20px;
@@ -8,25 +8,25 @@
 
 /* day */
 
-.tests-container .day {
+#tests-container .day {
     width: 20%;
     /* TODO: border */
     border: 1px solid var(--border-color);
     border-right: 0;
 }
-.tests-container .day:nth-child(2n) {
+#tests-container .day:nth-child(2n) {
     background-color: var(--background-color-even-rows);
 }
-.tests-container .day:nth-child(2n+1) {
+#tests-container .day:nth-child(2n+1) {
     background-color: var(--background-color-odd-rows);
 }
-.tests-container .day:last-child {
+#tests-container .day:last-child {
     border-right: 1px solid var(--border-color);
 }
 
 /* day - date */
 
-.tests-container .day .date {
+#tests-container .day .date {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,21 +39,21 @@
 
 /* day - test */
 
-.tests-container .day .test {
+#tests-container .day .test {
     border-bottom: 1px solid var(--border-color);
     padding: 7px;
 }
-.tests-container .day .test:last-child {
+#tests-container .day .test:last-child {
     border-bottom: 0;
 }
 
 /* test - lesson name */
-.tests-container .day .lesson-name {
+#tests-container .day .lesson-name {
     padding-bottom: 7px;
 }
 
 /* test - description */
-.tests-container .day .description {
+#tests-container .day .description {
     padding-bottom: 7px;
 }
 
@@ -62,12 +62,12 @@
         display: unset !important;
     }
 
-    .tests-container {
+    #tests-container {
         width: 95vw;
         overflow-x: scroll;
     }
 
-    .tests-container .day {
+    #tests-container .day {
         min-width: 150px;
     }
 }

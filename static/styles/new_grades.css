@@ -2,40 +2,40 @@
     display: none !important;
 }
 
-.new-grades-container {
+#new-grades-container {
     display: flex;
     flex-direction: column;
     width: 70vw;
     margin-top: 20px;
 }
 
-.new-grades-container h2 {
+#new-grades-container h2 {
     margin-bottom: 10px;
 }
 
-.new-grades-container .grade-container {
+#new-grades-container .grade-container {
     display: flex;
     min-height: 50px;
     border: 1px solid var(--border-color);
     border-top: 0;
 }
 
-.new-grades-container .grade-container:nth-child(2n) {
+#new-grades-container .grade-container:nth-child(2n) {
     background-color: var(--background-color-even-rows);
 }
-.new-grades-container .grade-container:nth-child(2n+3) {
+#new-grades-container .grade-container:nth-child(2n+3) {
     background-color: var(--background-color-odd-rows);
 }
-.new-grades-container .grade-container:first-of-type {
+#new-grades-container .grade-container:first-of-type {
     background-color: var(--background-color-header-row);
     font-weight: bold;
     border-top: 1px solid var(--border-color);
 }
-.new-grades-container .grade-container:first-of-type > * {
+#new-grades-container .grade-container:first-of-type > * {
     justify-content: center;
     padding: 0;
 }
-.new-grades-container .grade-container > * {
+#new-grades-container .grade-container > * {
     display: flex;
     align-items: center;
     padding-left: 5px;
@@ -43,27 +43,27 @@
 }
 
 /* its for mobile version */
-.new-grades-container .grade-container input {
+#new-grades-container .grade-container input {
     display: none;
 }
 
-.new-grades-container .grade-container .lesson-name {
+#new-grades-container .grade-container .lesson-name {
     width: 14%;
 }
 
-.new-grades-container .grade-container .grade {
+#new-grades-container .grade-container .grade {
     width: 8%;
 }
 
-.new-grades-container .grade-container .weight {
+#new-grades-container .grade-container .weight {
     width: 8%;
 }
 
-.new-grades-container .grade-container .date {
+#new-grades-container .grade-container .date {
     width: 10%;
 }
 
-.new-grades-container .grade-container .description {
+#new-grades-container .grade-container .description {
     width: 60%;
     border-right: 0;
 }
@@ -72,34 +72,37 @@
     .mobile {
         display: unset !important;
     }
-    .new-grades-container {
+    #main {
+        overflow-y: scroll;
+    }
+    #new-grades-container {
         width: 95vw;
         text-align: center;
     }
 
-    .new-grades-container .grade-container {
+    #new-grades-container .grade-container {
         position: relative;
         flex-wrap: wrap;
     }
 
-    .new-grades-container .grade-container > * {
+    #new-grades-container .grade-container > * {
         min-height: 50px;
     }
 
-    .new-grades-container .grade-container .lesson-name {
+    #new-grades-container .grade-container .lesson-name {
         width: 35%;
     }
-    .new-grades-container .grade-container .grade {
+    #new-grades-container .grade-container .grade {
         width: 17.5%;
     }
-    .new-grades-container .grade-container .weight {
+    #new-grades-container .grade-container .weight {
         width: 17.5%;
     }
-    .new-grades-container .grade-container .date {
+    #new-grades-container .grade-container .date {
         width: 30%;
         border-right: 0;
     }
-    .new-grades-container .grade-container .description {
+    #new-grades-container .grade-container .description {
         width: 100%;
         min-height: 0;
         height: 0;
@@ -110,18 +113,18 @@
         /* transition: min-height 0.1s ease-out; */
     }
 
-    .new-grades-container .grade-container label {
+    #new-grades-container .grade-container label {
         position: absolute;
         height: 50px;
         width: 100%;
         opacity: 0;
     }
-    .new-grades-container .grade-container input:checked ~ .description {
+    #new-grades-container .grade-container input:checked ~ .description {
         display: flex;
         min-height: 50px;
         border-top: 1px solid var(--border-color);
     }
-    /* .new-grades-container .grade-container input:checked ~ .description::before {
+    /* #new-grades-container .grade-container input:checked ~ .description::before {
         content: 'Opis:';
         padding-right: 10px;
         font-weight: bold;

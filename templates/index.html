@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dziennik</title>
-    <link rel="icon" href=" {{ url_for('static', filename='images/logo.svg') }}">
+
+    <script src="{{ url_for('static', filename='scripts/script.js') }}" defer></script>
+
+    <link rel="icon" href=" {{ logo_link }}">
 
     <link rel="stylesheet" href="{{ theme_link }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
@@ -28,9 +31,10 @@
 </head>
 <body>
     <div id="all">
+        <div id="search-bar"></div>
         <div id="header">
             <a id="logo" href="/">
-                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="logo">
+                <img src="{{ logo_link }}" alt="logo">
                 <h1>Dziennik</h1>
             </a>
             <div id="menu">
@@ -47,40 +51,41 @@
                 <div id="hidden-layers">
                     <div class="white-black-set">
                         <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='/images/green-white.png') }}">
+                            <img src="{{ url_for('static', filename='/images/green-white.svg') }}">
                         </a>
                         <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='/images/green-black.png') }}">
+                            <img src="{{ url_for('static', filename='/images/green-black.svg') }}">
                         </a>    
                     </div>
                     <div class="white-black-set">
-                        <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='/images/green-white.png') }}">
+                        <a class="option" href="/set_cookie/theme/blue-white/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='/images/blue-white.svg') }}">
                         </a>
-                        <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='/images/green-black.png') }}">
+                        <a class="option" href="/set_cookie/theme/blue-black/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='/images/blue-black.svg') }}">
                         </a>    
                     </div>
                     <div class="white-black-set">
-                        <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='/images/green-white.png') }}">
+                        <a class="option" href="/set_cookie/theme/pink-white/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='/images/pink-white.svg') }}">
                         </a>
-                        <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='/images/green-black.png') }}">
+                        <a class="option" href="/set_cookie/theme/pink-black/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='/images/pink-black.svg') }}">
                         </a>    
                     </div>
                     <div class="white-black-set">
-                        <a class="option" href="/set_cookie/theme/green-white/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='/images/green-white.png') }}">
+                        <a class="option" href="/set_cookie/theme/orange-white/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='/images/orange-white.svg') }}">
                         </a>
-                        <a class="option" href="/set_cookie/theme/green-black/{{ request.path.replace('/', '-')[1:] }}">
-                            <img src="{{ url_for('static', filename='/images/green-black.png') }}">
+                        <a class="option" href="/set_cookie/theme/orange-black/{{ request.path.replace('/', '-')[1:] }}">
+                            <img src="{{ url_for('static', filename='/images/orange-black.svg') }}">
                         </a>    
                     </div>
                 </div>
             </div>
         </div>
         <div id="main">
+            <!-- TODO: change lessons to grades['lessons'] -->
             {% if lessons %}
                 <div class="buttons">
                     <a class="button" href="/oceny/1">semestr 1</a>
@@ -94,7 +99,7 @@
                             <div class="grade">Oceny</div>
                         </div>
                     </div>
-               
+                    
                     {% for i, lesson in enumerate(lessons) %}
                         <div class="lesson-container">
                             <input type="checkbox" id="grades-{{i}}"><label class="mobile" for="grades-{{i}}"></label>
@@ -160,7 +165,7 @@
                     <a class="button" href="/set_cookie/date_offset/0/sprawdziany">biezacy tydzien</a>
                     <a class="button" href="/set_cookie/date_offset/1/sprawdziany">nastepny tydzien</a>
                 </div>
-                <div class="tests-container">
+                <div id="tests-container">
                     {% for i, day in enumerate(tests.days) %}
                         <div class="day">
                             <div class="date">
@@ -199,7 +204,7 @@
                     <a id="load-more-messages" href="/set_cookie/messages_date_offset/-30/wiadomosci#load-more-messages">Załaduj więcej</a>
             
             {% elif message %}
-                <div class="message-container">
+                <div id="message-container">
                     <div class="content">{{ message.content }}</div>
                     <div class="attachments">
                         {% if message.attachments %}
@@ -220,7 +225,7 @@
                     <a class="button" href="/set_cookie/date_offset/1/frekwencja">nastepny tydzien</a>
                     <a class="button" href="/frekwencja/statystyki">statystyki</a>
                 </div>
-                <div class="addendance-container">
+                <div id="addendance-container">
                     {% for i, day in enumerate(addendance.days) %}
                         <div class="day">
                             <div class="lesson">{{ addendance.weekdays[i] }}</div>
@@ -235,7 +240,7 @@
                 <div class="buttons">
                     <a class="button" href="/frekwencja">frekwencja tygodniowa</a>
                 </div>
-                <div class="addendance-stats-container">
+                <div id="addendance-stats-container">
                     <div class="lesson-container">
                         <div class="lesson-name">Przedmiot</div>
                         <div class="stats">Frekwencja</div>
@@ -249,7 +254,7 @@
                 </div>
             
             {% elif new_grades %}
-                <div class="new-grades-container">
+                <div id="new-grades-container">
                     <h2>Nowe oceny</h2>
                     <div class="grade-container">
                         <div class="lesson-name">Przedmiot</div>

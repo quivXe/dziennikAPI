@@ -10,6 +10,24 @@ body {
     background-color: var(--background-color);
 }
 
+/* search bar */
+
+#search-bar {
+    display: none;
+    position: fixed;
+    top: 100px;
+    left: 5px;
+    min-width: 100px;
+    height: 25px;
+    line-height: 25px;
+    padding: 0 5px;
+    background-color: var(--background-color-even-rows);
+    border: 1px solid var(--border-color);
+}
+#search-bar::before {
+    content: '🔍 '
+
+}
 
 /* header */
 
@@ -124,7 +142,6 @@ body {
     align-items: center;
     flex-direction: column;
     margin-bottom: 50px;
-    overflow-y: scroll;
 }
 
 /* buttons */
@@ -156,6 +173,9 @@ body {
         width: 100%;
         margin-bottom: 20px;
         margin-left: 20px;
+    }
+    #main {
+        overflow-y: scroll;
     }
 
     #header #menu {

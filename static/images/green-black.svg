@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="6.6145868mm"
+   height="6.613718mm"
+   viewBox="0 0 6.6145868 6.613718"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="green-black.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="11.516947"
+     inkscape:cx="-1.6063285"
+     inkscape:cy="22.70567"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <sodipodi:guide
+       position="3.3264311,305.41798"
+       orientation="1,0"
+       id="guide1252" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Warstwa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-61.550425,-51.424872)">
+    <path
+       id="path848"
+       style="fill:#00b900;fill-opacity:1;stroke:#000000;stroke-width:0.057955;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 64.876857,51.45412 a 3.2783204,3.277861 0 0 0 -0.01914,-2.7e-4 3.2783204,3.277861 0 0 0 -3.278314,3.277855 3.2783204,3.277861 0 0 0 3.278314,3.277908 3.2783204,3.277861 0 0 0 0.01914,-7.25e-4 z" />
+    <path
+       id="path1787"
+       style="fill:#0f0f0f;fill-opacity:1;stroke:#000000;stroke-width:0.057955;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 64.876857,51.45412 v 6.554793 a 3.2783204,3.277861 0 0 0 3.259178,-3.277208 3.2783204,3.277861 0 0 0 -3.259178,-3.277585 z" />
+  </g>
+</svg>

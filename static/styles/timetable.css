@@ -80,6 +80,9 @@
     .mobile {
         display: unset !important;
     }
+    #main {
+        overflow-y: scroll;
+    }
 
     #timetable-container {
         width: 95vw;

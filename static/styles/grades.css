@@ -114,6 +114,9 @@
     .mobile {
         display: unset !important;
     }
+    #main {
+        overflow-y: scroll;
+    }
     
     #grades-container {
         width: 95vw;
