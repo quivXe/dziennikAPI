@@ -77,6 +77,10 @@
     padding: 5px 10px;
 }
 
+#grades-container .lesson-container .grades .grade span {
+    overflow-x: hidden;
+}
+
 #grades-container .lesson-container .grades .grade:hover {
     background-color: var(--background-color-grade-hover);
 }
