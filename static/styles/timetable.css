@@ -90,11 +90,13 @@
     }
 
     #timetable-container .row-container:first-child {
+        border-top: 0;
+    }
+    #timetable-container .row-container:first-child > *{
         background-color: var(--background-color-header-row);
         border-top: 1px solid var(--border-color);
-        font-weight: bold;
-        width: fit-content;
     }
+    
     #timetable-container .row-container .cell {
         min-width: 150px;
     }
