@@ -44,6 +44,11 @@ class Api:
         fullname_to_shortcut[shortcuts[key]['fullname']] = key
     fullname_to_shortcut['Zachowanie'] = 'wychowawcza'
 
+    test_type_ids = {
+            '1': 'sprawdzian',
+            '2': 'kartkowka',
+            '3': 'praca klasowa'
+        }
 
     def __init__(self, username, password, update=False, school_name='puck'):
         self.school_name = school_name
@@ -338,9 +343,15 @@ class Api:
                     if date not in this_week_tests.keys():
                         this_week_tests[date] = []
 
-                    # !! Rodzaj jako kartkowka/sprawdzian
-
-                    this_week_tests[date].append([lesson, description])
+                    test_type = str(raw_test['Rodzaj'])
+                    if test_type in self.test_type_ids.keys():
+                        test_type = self.test_type_ids[test_type]
+                        
+                    this_week_tests[date].append({
+                        'lesson': lesson,
+                        'description': description,
+                        'test_type': test_type
+                        })
             
             saved_tests[monday] = this_week_tests
 
