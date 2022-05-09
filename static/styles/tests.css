@@ -56,6 +56,10 @@
 #tests-container .day .description {
     padding-bottom: 7px;
 }
+/* test - test type */
+#tests-container .day .test-type {
+    padding-bottom: 7px;
+}
 
 @media screen and (max-width: 1450px) {
     .mobile {
