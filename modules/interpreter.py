@@ -102,7 +102,10 @@ class Interpreter:
             tests['days'].append([])
             if date in raw_tests.keys():
                 for test in raw_tests[date]:
-                    tests['days'][i].append({'lesson': test[0], 'description': test[1]})
+                    tests['days'][i].append({'lesson': test['lesson'],
+                                             'description': test['description'],
+                                             'test_type': test['test_type']
+                                             })
         
         return tests
     
