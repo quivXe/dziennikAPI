@@ -58,7 +58,7 @@
     visibility: hidden;
     position: absolute;
     z-index: 1;
-    top: 50px;
+    top: calc(100% + 1px);
     left: 0;
     width: 100%;
     padding: 7px;
