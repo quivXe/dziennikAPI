@@ -219,9 +219,9 @@ class Api:
                         additional_info = ''
                         if len(soup.text.split('(')) > 1:
 
-                            additional_info_from_page = soup.text.split('(')[1][:-1]
+                            additional_info_from_page = soup.text.split('(')[1][:-1].lower()
 
-                            if 'okienko' in additional_info_from_page.lower() or 'uczniowie przychodzą później' in additional_info_from_page.lower():
+                            if 'okienko' in additional_info_from_page.lower() or 'uczniowie przychodzą później' in additional_info_from_page.lower() or 'uczniowie zwolnieni do domu' in additional_info_from_page.lower():
                                 additional_info = 'okienko'
 
                             elif 'zastępstwo' in additional_info_from_page.lower():
