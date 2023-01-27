@@ -37,7 +37,6 @@ class Api:
         'mielsk': {'fullname': 'montaż i eksploatacja lokalnych sieci komputerowych'},
         'tsiai': {'fullname': 'tworzenie stron i aplikacji internetowych'},
         'pbd': {'fullname': 'projektowanie baz danych'},
-        'fizyka': {'fullname': 'Fizyka'}
     }
     fullname_to_shortcut = {}
     for key in shortcuts:
@@ -227,9 +226,12 @@ class Api:
         raw_lessons = json.loads(response_text)['data']
         for raw_lesson in raw_lessons:
 
-            if raw_lesson['Nazwa'] in self.fullname_to_shortcut.keys():
+            if raw_lesson['Nazwa'] not in self.fullname_to_shortcut.keys():
+                self.fullname_to_shortcut[raw_lesson['Nazwa']] = raw_lesson['Nazwa']
+                self.shortcuts[raw_lesson['Nazwa']] = {'fullname': raw_lesson['Nazwa']}
 
-                self.shortcuts[self.fullname_to_shortcut[raw_lesson['Nazwa']]]['id'] = raw_lesson['Id']
+            self.shortcuts[self.fullname_to_shortcut[raw_lesson['Nazwa']]]['id'] = raw_lesson['Id']
+                
     def get_addendance_stats(self, lesson): 
 
         if lesson not in self.shortcuts.keys():
