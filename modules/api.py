@@ -14,7 +14,6 @@ class Api:
         'edb': {'fullname': 'Edukacja dla bezpieczeństwa'},
         'kaszubski2': {'fullname': 'Historia i kultura kaszubska'},
         'angielski zaw.': {'fullname': 'Język angielski w branży informatycznej'},
-        'zaj. z psychologiem': {'fullname': 'Zajęcia z psychologiem'},
         'podstawy informatyki': {'fullname': 'podstawy informatyki'},
         'polski': {'fullname': 'Język polski'},
         'ang': {'fullname': 'Język angielski'},
@@ -37,7 +36,8 @@ class Api:
         'lsk': {'fullname': 'lokalne sieci komputerowe'},
         'mielsk': {'fullname': 'montaż i eksploatacja lokalnych sieci komputerowych'},
         'tsiai': {'fullname': 'tworzenie stron i aplikacji internetowych'},
-        'pbd': {'fullname': 'projektowanie baz danych'}
+        'pbd': {'fullname': 'projektowanie baz danych'},
+        'fizyka': {'fullname': 'Fizyka'}
     }
     fullname_to_shortcut = {}
     for key in shortcuts:
@@ -73,31 +73,6 @@ class Api:
     
                 self.set_cookies()
                 self.set_lessons_id()
-
-            # json_object = json.dumps({'user': user, 'shortcuts': self.shortcuts})
-            # with open('data.json', 'w') as f:
-            #     f.write(json_object)
-        
-        # else:
-        #     with open('./modules/data.json', 'r', encoding='utf-8') as f:
-        #         json_object = json.load(f)
-        #     self.session = requests.Session()
-
-        #     self.log_in(username, password)
-
-        #     user = json_object['user']
-
-        #     self.user_id = str(user['IdUczen'])
-        #     self.grade_book_id = str(user['IdDziennik'])
-        #     self.year = str(user['DziennikRokSzkolny'])
-        #     self.semestrs_id = {
-        #         '1': user['Okresy'][0]['Id'],
-        #         '2': user['Okresy'][1]['Id']
-        #     }
-
-        #     self.set_cookies()
-            
-        #     self.shortcuts = json_object['shortcuts']
 
     def log_in(self, username, password):
         # - get empty page with DATA FORM for another POST request
@@ -255,7 +230,6 @@ class Api:
             if raw_lesson['Nazwa'] in self.fullname_to_shortcut.keys():
 
                 self.shortcuts[self.fullname_to_shortcut[raw_lesson['Nazwa']]]['id'] = raw_lesson['Id']
-
     def get_addendance_stats(self, lesson): 
 
         if lesson not in self.shortcuts.keys():
